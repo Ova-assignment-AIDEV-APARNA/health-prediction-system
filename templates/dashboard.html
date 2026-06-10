@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Health Prediction Dashboard
+</h1>
+
+<a href="/add"
+   class="btn btn-primary">
+    Add Patient
+</a>
+
+<a href="/export"
+   class="btn btn-info">
+    Export to CSV
+</a>
+
+<hr>
+<div class="row mb-3">
+
+    <div class="col-md-6">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="search"
+                class="form-control"
+                placeholder="Search Patient">
+
+        </form>
+
+    </div>
+
+</div>
+<div class="row mb-4">
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Total Patients</h5>
+                <h2>{{ total_patients }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow text-center">
+            <div class="card-body">
+                <h5>Average Glucose</h5>
+                <h2>{{ avg_glucose }}</h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Glucose</th>
+            <th>Remarks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+{% for patient in patients %}
+
+<tr>
+
+    <td>{{ patient.id }}</td>
+
+    <td>{{ patient.fullname }}</td>
+
+    <td>{{ patient.email }}</td>
+
+    <td>{{ patient.glucose }}</td>
+
+    <!-- <td>{{ patient.remarks }}</td> -->
+    <td style="max-width:300px; white-space:normal;">
+    {{ patient['remarks'] }}
+</td>
+<td>
+
+        <a href="/edit/{{ patient.id }}"
+           class="btn btn-warning btn-sm">
+           Edit
+        </a>
+        <a href="/delete/{{ patient.id }}"
+           class="btn btn-danger"
+            onclick="return confirm('Delete this patient?')">
+           Delete
+         </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+{% endblock %}
